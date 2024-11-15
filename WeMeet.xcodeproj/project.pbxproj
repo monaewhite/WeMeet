@@ -6,6 +6,16 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		870BCD9F2CE56A0400041D1D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 870BCD9E2CE56A0400041D1D /* GoogleService-Info.plist */; };
+		871E32F32CE2FB9E00616884 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 871E32F22CE2FB9E00616884 /* FirebaseAnalytics */; };
+		871E32F52CE2FB9E00616884 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 871E32F42CE2FB9E00616884 /* FirebaseAuth */; };
+		871E32F72CE2FB9E00616884 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 871E32F62CE2FB9E00616884 /* FirebaseCore */; };
+		871E32F92CE2FB9E00616884 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 871E32F82CE2FB9E00616884 /* FirebaseDatabase */; };
+		871E32FC2CE4160E00616884 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 871E32FB2CE4160E00616884 /* GoogleSignIn */; };
+		871E32FE2CE4160E00616884 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 871E32FD2CE4160E00616884 /* GoogleSignInSwift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		8707A6692CD98FA900EDFA7A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,11 +37,25 @@
 		8707A6582CD98FA700EDFA7A /* WeMeet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeMeet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8707A6682CD98FA900EDFA7A /* WeMeetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeMeetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8707A6722CD98FA900EDFA7A /* WeMeetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeMeetUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		870BCD9E2CE56A0400041D1D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		870BCD9D2CE567E600041D1D /* Exceptions for "WeMeet" folder in "WeMeet" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 8707A6572CD98FA700EDFA7A /* WeMeet */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		8707A65A2CD98FA700EDFA7A /* WeMeet */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				870BCD9D2CE567E600041D1D /* Exceptions for "WeMeet" folder in "WeMeet" target */,
+			);
 			path = WeMeet;
 			sourceTree = "<group>";
 		};
@@ -52,6 +76,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				871E32FC2CE4160E00616884 /* GoogleSignIn in Frameworks */,
+				871E32F32CE2FB9E00616884 /* FirebaseAnalytics in Frameworks */,
+				871E32F72CE2FB9E00616884 /* FirebaseCore in Frameworks */,
+				871E32FE2CE4160E00616884 /* GoogleSignInSwift in Frameworks */,
+				871E32F92CE2FB9E00616884 /* FirebaseDatabase in Frameworks */,
+				871E32F52CE2FB9E00616884 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +109,7 @@
 				8707A66B2CD98FA900EDFA7A /* WeMeetTests */,
 				8707A6752CD98FA900EDFA7A /* WeMeetUITests */,
 				8707A6592CD98FA700EDFA7A /* Products */,
+				870BCD9E2CE56A0400041D1D /* GoogleService-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -112,6 +143,12 @@
 			);
 			name = WeMeet;
 			packageProductDependencies = (
+				871E32F22CE2FB9E00616884 /* FirebaseAnalytics */,
+				871E32F42CE2FB9E00616884 /* FirebaseAuth */,
+				871E32F62CE2FB9E00616884 /* FirebaseCore */,
+				871E32F82CE2FB9E00616884 /* FirebaseDatabase */,
+				871E32FB2CE4160E00616884 /* GoogleSignIn */,
+				871E32FD2CE4160E00616884 /* GoogleSignInSwift */,
 			);
 			productName = WeMeet;
 			productReference = 8707A6582CD98FA700EDFA7A /* WeMeet.app */;
@@ -195,6 +232,10 @@
 			);
 			mainGroup = 8707A64F2CD98FA700EDFA7A;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				871E32F12CE2FB9E00616884 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				871E32FA2CE4160E00616884 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8707A6592CD98FA700EDFA7A /* Products */;
 			projectDirPath = "";
@@ -212,6 +253,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				870BCD9F2CE56A0400041D1D /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,8 +438,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WeMeet/Preview Content\"";
+				DEVELOPMENT_TEAM = 9KJ94L2QYP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WeMeet/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -424,8 +468,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WeMeet/Preview Content\"";
+				DEVELOPMENT_TEAM = 9KJ94L2QYP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WeMeet/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -552,6 +598,58 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		871E32F12CE2FB9E00616884 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.4.0;
+			};
+		};
+		871E32FA2CE4160E00616884 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		871E32F22CE2FB9E00616884 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 871E32F12CE2FB9E00616884 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		871E32F42CE2FB9E00616884 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 871E32F12CE2FB9E00616884 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		871E32F62CE2FB9E00616884 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 871E32F12CE2FB9E00616884 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		871E32F82CE2FB9E00616884 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 871E32F12CE2FB9E00616884 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		871E32FB2CE4160E00616884 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 871E32FA2CE4160E00616884 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		871E32FD2CE4160E00616884 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 871E32FA2CE4160E00616884 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8707A6502CD98FA700EDFA7A /* Project object */;
 }
