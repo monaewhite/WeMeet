@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-class QuoteParsing: ObservableObject {
+class WelcomeViewModel: ObservableObject {
     @Published var quoteText: String = "Loading..."
     @Published var author: String = ""
 
