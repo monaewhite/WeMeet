@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		870BCD9F2CE56A0400041D1D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 870BCD9E2CE56A0400041D1D /* GoogleService-Info.plist */; };
 		871E32F32CE2FB9E00616884 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 871E32F22CE2FB9E00616884 /* FirebaseAnalytics */; };
 		871E32F52CE2FB9E00616884 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 871E32F42CE2FB9E00616884 /* FirebaseAuth */; };
 		871E32F72CE2FB9E00616884 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 871E32F62CE2FB9E00616884 /* FirebaseCore */; };
 		871E32F92CE2FB9E00616884 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 871E32F82CE2FB9E00616884 /* FirebaseDatabase */; };
 		871E32FC2CE4160E00616884 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 871E32FB2CE4160E00616884 /* GoogleSignIn */; };
 		871E32FE2CE4160E00616884 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 871E32FD2CE4160E00616884 /* GoogleSignInSwift */; };
+		8737306A2CEC20E9006DE8CC /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 873730692CEC20E9006DE8CC /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +37,6 @@
 		8707A6582CD98FA700EDFA7A /* WeMeet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeMeet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8707A6682CD98FA900EDFA7A /* WeMeetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeMeetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8707A6722CD98FA900EDFA7A /* WeMeetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeMeetUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		870BCD9E2CE56A0400041D1D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -82,6 +81,7 @@
 				871E32FE2CE4160E00616884 /* GoogleSignInSwift in Frameworks */,
 				871E32F92CE2FB9E00616884 /* FirebaseDatabase in Frameworks */,
 				871E32F52CE2FB9E00616884 /* FirebaseAuth in Frameworks */,
+				8737306A2CEC20E9006DE8CC /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,7 +109,6 @@
 				8707A66B2CD98FA900EDFA7A /* WeMeetTests */,
 				8707A6752CD98FA900EDFA7A /* WeMeetUITests */,
 				8707A6592CD98FA700EDFA7A /* Products */,
-				870BCD9E2CE56A0400041D1D /* GoogleService-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -149,6 +148,7 @@
 				871E32F82CE2FB9E00616884 /* FirebaseDatabase */,
 				871E32FB2CE4160E00616884 /* GoogleSignIn */,
 				871E32FD2CE4160E00616884 /* GoogleSignInSwift */,
+				873730692CEC20E9006DE8CC /* FirebaseFirestore */,
 			);
 			productName = WeMeet;
 			productReference = 8707A6582CD98FA700EDFA7A /* WeMeet.app */;
@@ -253,7 +253,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				870BCD9F2CE56A0400041D1D /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -648,6 +647,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 871E32FA2CE4160E00616884 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		873730692CEC20E9006DE8CC /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 871E32F12CE2FB9E00616884 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -3,12 +3,15 @@
 //  WeMeet
 //
 //  Created by Monae White.
+//  This code implements the Google Sign In process, initializes new users with a document in Firestore, and listens for user changes.
+//
 //  https://firebase.google.com/docs/auth/ios/google-signin
 
-import FirebaseCore
+import SwiftUI
 import GoogleSignIn
+import FirebaseCore
 import FirebaseAuth
-import UIKit
+import FirebaseFirestore
 
 // Define a typealias for the completion handler to make the code cleaner
 typealias SignInCompletion = (Result<Void, Error>) -> Void
@@ -18,12 +21,7 @@ func configureFirebaseApp() {
     FirebaseApp.configure()
 }
 
-// Handle the URL from Google Sign-In in AppDelegate
-//func handleOpenURL(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-//    return GIDSignIn.sharedInstance.handle(url)
-//}
-
-// Main function to handle Google Sign-In and Firebase Authentication
+// Google Sign-In and Firebase Authentication
 func signInWithGoogle(completion: @escaping SignInCompletion) {
     guard let clientID = FirebaseApp.app()?.options.clientID else {
         completion(.failure(NSError(domain: "com.wemeet", code: -1, userInfo: [NSLocalizedDescriptionKey: "Firebase client ID not found."])))
@@ -34,8 +32,8 @@ func signInWithGoogle(completion: @escaping SignInCompletion) {
     let config = GIDConfiguration(clientID: clientID)
     GIDSignIn.sharedInstance.configuration = config
     
-    // Start the sign-in process
-    GIDSignIn.sharedInstance.signIn(withPresenting: getRootViewController()) { result, error in
+    // Start the sign-in process with calendar scopes
+    GIDSignIn.sharedInstance.signIn(withPresenting: getRootViewController(), hint: nil, additionalScopes: ["https://www.googleapis.com/auth/calendar.readonly"]) { result, error in
         if let error = error {
             completion(.failure(error))
             return
@@ -49,15 +47,22 @@ func signInWithGoogle(completion: @escaping SignInCompletion) {
         
         let accessToken = user.accessToken.tokenString
         
-        // Firebase credential with the Google ID token and access token
         let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
         
-        // Sign in with Firebase using the credential
         Auth.auth().signIn(with: credential) { result, error in
             if let error = error {
                 completion(.failure(error))
             }
-            else {
+            else if let result = result {
+                let user = User()
+                if let isNewUser = result.additionalUserInfo?.isNewUser, isNewUser {
+                    print("New user detected. Initializing Firestore document.")
+                    user.initializeUserInFirestore() 
+                }
+                else {
+                    print("Existing user detected. Fetching data.")
+                }
+                user.startListeningForUserChanges()
                 completion(.success(()))
             }
         }
@@ -72,12 +77,3 @@ private func getRootViewController() -> UIViewController {
     return rootViewController
 }
 
-func signOut(completion: @escaping (Result<Void, Error>) -> Void) {
-    let firebaseAuth = Auth.auth()
-    do {
-        try firebaseAuth.signOut()
-        completion(.success(()))
-    } catch let signOutError as NSError {
-        completion(.failure(signOutError))
-    }
-}

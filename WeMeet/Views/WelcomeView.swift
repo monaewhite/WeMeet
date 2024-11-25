@@ -8,13 +8,15 @@
 import SwiftUI
 import FirebaseAuth
 import FirebaseCore
+import GoogleSignIn
 
 struct WelcomeView: View {
-    @StateObject private var viewModel = QuoteParsing()
-    @State private var isSignedIn = false
+    @StateObject private var viewModel = WelcomeViewModel()
+    @EnvironmentObject var user: User
+    @Binding var isSignedIn: Bool
     @State private var navigateToCalendar = false
     @State private var errorMessage: String?
-
+    
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottom) {
@@ -76,14 +78,14 @@ struct WelcomeView: View {
                                 Text("Sign in with Google")
                                     .font(.headline)
                             }
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background((Color(red: 0, green: 0.6, blue: 0.81)))
-                                .cornerRadius(20)
-                                .padding(.horizontal)
-                                .padding(.bottom, 250)
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background((Color(red: 0, green: 0.6, blue: 0.81)))
+                            .cornerRadius(20)
+                            .padding(.horizontal)
+                            .padding(.bottom, 250)
                         }
                         
                         if let error = errorMessage {
@@ -93,34 +95,22 @@ struct WelcomeView: View {
                         }
                     }
                 }
-                
-                // Navigation to CalendarView if the user does not need to sign in
                 .navigationDestination(isPresented: $navigateToCalendar) {
                     CalendarView()
+                        .environmentObject(user)
+                }
+                .onAppear {
+                    viewModel.fetchQuote()
+                    if isSignedIn {
+                        user.startListeningForUserChanges()
+                    }
                 }
             }
-            .onAppear {
-                viewModel.fetchQuote() // Fetch the quote when the view appears
-                checkUserSignInStatus()
-            }
-        }
-    }
-    
-//    private func checkUserSignInStatus() {
-//        if Auth.auth().currentUser != nil {
-//            isSignedIn = true
-//        }
-//    }
-    private func checkUserSignInStatus() {
-        // Ensure Firebase is properly configured before checking
-        if FirebaseApp.app() != nil {
-            isSignedIn = Auth.auth().currentUser != nil
-        } else {
-            print("Firebase not configured correctly")
         }
     }
 }
 
 #Preview {
-    WelcomeView()
+    WelcomeView(isSignedIn: .constant(true))
+        .environmentObject(User())
 }

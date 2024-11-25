@@ -2,54 +2,95 @@
 //  SettingsView.swift
 //  WeMeet
 //
-//  Created by Monae White on 11/12/24.
+//  Created by Monae White.
 //
 
 import SwiftUI
 import FirebaseAuth
 
 struct SettingsView: View {
-    @State private var selectedMii: String
+    @AppStorage("monthsAhead") private var monthsAhead: Int = 3 
+    @EnvironmentObject var user: User
+    @State private var navigateToMiiSelection = false
+    @State private var navigateToContent = false
+    @Binding var isSignedIn: Bool
+    @Environment(\.dismiss) private var dismiss
+
+    private func signOut() {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+            user.name = ""
+            user.email = ""
+            user.selectedMii = "Image 0"
+            isSignedIn = false
+//            dismiss()
+            navigateToContent = true
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
+    }
     
     var body: some View {
         NavigationView {
-            Form {
-                // Profile Information Section
-                Section(header: Text("Account Information")) {
-                    //Text("Name: \(name)")
-                    //Text("Email: \(email)") // Replace with actual user email
-                    Button("Sign Out") {
-                        // Add sign-out functionality
-                    }
-                        .foregroundColor(Color(red: 0, green: 0.6, blue: 0.81))
-                }
-                
-                // Mii Avatar Selection Section
-                Section(header: Text("Profile Picture")) {
-                    HStack {
-                        Image(selectedMii) // Display current avatar
-                            .resizable()
-                            .frame(width: 50, height: 50)
-                            .clipShape(Circle())
-                        
-                        Button("Change Mii Avatar") {
-                            // Code to open Mii selection view
+            if navigateToContent {
+                ContentView()
+                    .environmentObject(user)
+            } else {
+                Form {
+                    // Account Informations
+                    Section(header: Text("Account Information")) {
+                        Text("Name: \(user.name)")
+                        Text("Email: \(user.email)")
+                        Button("Sign Out") {
+                            signOut()
                         }
+                        .foregroundColor(Color(red: 0, green: 0.6, blue: 0.81))
+                    }
+                    
+                    // Mii Avatar Selection
+                    Section(header: Text("Profile Picture")) {
+                        HStack {
+                            Image(user.selectedMii)
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .clipShape(Circle())
+                            
+                            Button("Change Mii") {
+                                navigateToMiiSelection = true
+                            }
                             .foregroundColor(Color(red: 0, green: 0.6, blue: 0.81))
+                        }
+                    }
+                    
+                    // Months Ahead
+                    Section(header: Text("Calendar Availablilty For")) {
+                        Picker("Show Availability For", selection: $monthsAhead) {
+                            Text("3 Months").tag(3)
+                            Text("6 Months").tag(6)
+                        }
+                        .pickerStyle(SegmentedPickerStyle())
+                    }
+                    
+                    // Notifications
+                    Section(header: Text("Notifications")) {
+                        Toggle("Availability Updates", isOn: .constant(true))
                     }
                 }
-                
-                // Notification Settings
-                Section(header: Text("Notifications")) {
-                    Toggle("Meeting Reminders", isOn: .constant(true))
-                    Toggle("Availability Updates", isOn: .constant(true))
-                }
+                .navigationTitle("Settings")
             }
-            .navigationTitle("Settings")
+        }
+        .navigationDestination(isPresented: $navigateToContent) {
+            ContentView().environmentObject(user)
+        }
+        .navigationDestination(isPresented: $navigateToMiiSelection) {
+            MiiSelectionView().environmentObject(user)
         }
     }
 }
 
-//#Preview {
-//    SettingsView()
-//}
+
+#Preview {
+    SettingsView(isSignedIn: .constant(true))
+        .environmentObject(User())
+}

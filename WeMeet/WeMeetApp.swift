@@ -28,7 +28,10 @@ struct WeMeetApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                WelcomeView()
+                ContentView()
+            }
+            .onOpenURL { url in
+                GIDSignIn.sharedInstance.handle(url)
             }
         }
     }

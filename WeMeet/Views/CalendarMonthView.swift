@@ -2,12 +2,13 @@
 //  CalendarMonthView.swift
 //  WeMeet
 //
-//  Created by Monae White on 11/12/24.
-//  Add a function that adds .overlay() in blue to the user's free days
+//  Created by Monae White.
+//  
 
 import SwiftUI
 
 struct CalendarMonthView: View {
+    @StateObject private var viewModel = CalendarMonthViewModel()
     @Binding var selectedDate: Date
     
     private var daysInMonth: Int {
@@ -33,6 +34,11 @@ struct CalendarMonthView: View {
     private func nextMonth() {
         selectedDate = Calendar.current.date(byAdding: .month, value: 1, to: selectedDate) ?? selectedDate
     }
+    
+    private func makeDate(day: Int) -> Date {
+        let components = Calendar.current.dateComponents([.year, .month], from: selectedDate)
+        return Calendar.current.date(from: DateComponents(year: components.year, month: components.month, day: day)) ?? Date()
+    }
 
     var body: some View {
         VStack {
@@ -40,13 +46,6 @@ struct CalendarMonthView: View {
                 Text(currentMonthYearString())
                     .font(.title2)
                     .fontWeight(.bold)
-//                Spacer()
-//                Button(action: previousMonth) {
-//                    Image(systemName: "chevron.left")
-//                }
-//                Button(action: nextMonth) {
-//                    Image(systemName: "chevron.right")
-//                }
             }
             .padding()
 
@@ -71,10 +70,13 @@ struct CalendarMonthView: View {
                             let dayIndex = row * 7 + column
                             if dayIndex >= startDayOffset && dayIndex < daysInMonth + startDayOffset {
                                 let day = dayIndex - startDayOffset + 1
+
                                 Text("\(day)")
                                     .font(.body)
                                     .frame(maxWidth: .infinity, minHeight: 40)
                                     .background(RoundedRectangle(cornerRadius: 10).fill(Color.white))
+                                    .overlay(RoundedRectangle(cornerRadius: 10)
+                                        .stroke(viewModel.availableDays.contains(makeDate(day: day)) ? Color(red: 0, green: 0.6, blue: 0.81) : Color.clear, lineWidth: 3))
                             }
                             else if dayIndex < startDayOffset { // Previous month's days
                                 let previousMonthDate = Calendar.current.date(byAdding: .month, value: -1, to: selectedDate)!
@@ -113,6 +115,9 @@ struct CalendarMonthView: View {
         }
         .background(RoundedRectangle(cornerRadius: 10).fill(Color.white).shadow(radius: 5))
         .padding(.horizontal, 20)
+        .onAppear {
+            viewModel.fetchAvailableDays()
+        }
     }
 }
 #Preview {

@@ -13,9 +13,9 @@ struct Quote: Codable {
     let a: String  // The author
 
     static func fetchDailyQuote(completion: @escaping (Quote?) -> Void) {
-        let urlString = "https://zenquotes.io/api/today"
+        let baseURL = "https://zenquotes.io/api/today"
         
-        guard let url = URL(string: urlString) else {
+        guard let url = URL(string: baseURL) else {
             completion(nil)
             return
         }

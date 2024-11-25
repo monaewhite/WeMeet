@@ -1,14 +1,14 @@
-////
-////  ContactsListView.swift
-////  WeMeet
-////
-////  Created by Monae White.
-////
 //
-//import SwiftUI
-//import FirebaseFirestore
-//import FirebaseAuth
+//  ContactsListView.swift
+//  WeMeet
 //
+//  Created by Monae White.
+//
+
+import SwiftUI
+import FirebaseFirestore
+import FirebaseAuth
+
 //struct ContactsListView: View {
 //    @Environment(\.presentationMode) var presentationMode
 //    @EnvironmentObject var user: User
@@ -25,8 +25,8 @@
 //                    ProgressView()
 //                } else {
 //                    List {
-//                        // Show the user's profile at the top
-//                        Section(header: Text("Your Profile")) {
+//                        // Show the contacts below the user's profile
+//                        Section(header: Text("Contacts")) {
 //                            HStack {
 //                                Image(user.selectedMii)
 //                                    .resizable()
@@ -40,10 +40,6 @@
 //                                        .foregroundColor(.gray)
 //                                }
 //                            }
-//                        }
-//
-//                        // Show the contacts below the user's profile
-//                        Section(header: Text("Contacts")) {
 //                            ForEach(contacts) { contact in
 //                                HStack {
 //                                    Image(contact.mii)
