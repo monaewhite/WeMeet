@@ -46,6 +46,12 @@ class CalendarMonthViewModel: ObservableObject {
     }
     
     private func calculateAvailableDays(busyTimes: [[String: String]], startDate: Date, endDate: Date) -> [Date] {
+        let allDates = stride(from: startDate, to: endDate, by: 60 * 60 * 24).map { $0 }
+        
+        if busyTimes.isEmpty {
+            return allDates
+        }
+        
         let formatter = ISO8601DateFormatter()
         let busyDates = busyTimes.compactMap { range -> (Date, Date)? in
             guard let start = formatter.date(from: range["start"] ?? ""),
@@ -55,7 +61,6 @@ class CalendarMonthViewModel: ObservableObject {
             return (start, end)
         }
 
-        let allDates = stride(from: startDate, to: endDate, by: 60 * 60 * 24).map { $0 }
         return allDates.filter { date in
             !busyDates.contains { $0.0 <= date && date <= $0.1 }
         }

@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct CalendarMonthView: View {
-    @StateObject private var viewModel = CalendarMonthViewModel()
+struct CalendarMonthlyView: View {
+    @StateObject private var viewModel = CalendarMonthlyViewModel()
     @Binding var selectedDate: Date
     
     private var daysInMonth: Int {
@@ -121,5 +121,5 @@ struct CalendarMonthView: View {
     }
 }
 #Preview {
-    CalendarMonthView(selectedDate: .constant(Date()))
+    CalendarMonthlyView(selectedDate: .constant(Date()))
 }
