@@ -1,0 +1,17 @@
+# Xcode Files
+.DS_Store
+build/
+*.pbxuser
+*.perspectivev3
+xcuserdata/
+DerivedData/
+
+# Secrets and Configurations
+GoogleService-Info.plist
+Info.plist
+*.json
+secrets.json
+
+# Sensitive Swift Files
+Config.swift
+
