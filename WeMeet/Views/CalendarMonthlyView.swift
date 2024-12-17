@@ -1,15 +1,18 @@
 //
-//  CalendarMonthView.swift
+//  CalendarMonthlyView.swift
 //  WeMeet
 //
 //  Created by Monae White.
 //  
 
 import SwiftUI
+import UIKit
 
 struct CalendarMonthlyView: View {
     @StateObject private var viewModel = CalendarMonthlyViewModel()
     @Binding var selectedDate: Date
+    var user: User
+    var selectedContacts: [User]
     
     private var daysInMonth: Int {
         let range = Calendar.current.range(of: .day, in: .month, for: selectedDate)
@@ -46,6 +49,7 @@ struct CalendarMonthlyView: View {
                 Text(currentMonthYearString())
                     .font(.title2)
                     .fontWeight(.bold)
+                    .foregroundColor(.primary)
             }
             .padding()
 
@@ -54,6 +58,7 @@ struct CalendarMonthlyView: View {
                     Text(day)
                         .font(.subheadline)
                         .fontWeight(.semibold)
+                        .foregroundColor(.primary)
                         .frame(maxWidth: .infinity)
                 }
             }
@@ -73,10 +78,11 @@ struct CalendarMonthlyView: View {
 
                                 Text("\(day)")
                                     .font(.body)
+                                    .foregroundColor(.primary)
                                     .frame(maxWidth: .infinity, minHeight: 40)
-                                    .background(RoundedRectangle(cornerRadius: 10).fill(Color.white))
-                                    .overlay(RoundedRectangle(cornerRadius: 10)
-                                        .stroke(viewModel.availableDays.contains(makeDate(day: day)) ? Color(red: 0, green: 0.6, blue: 0.81) : Color.clear, lineWidth: 3))
+                                    .background(RoundedRectangle(cornerRadius: 30).fill(Color(UIColor.systemBackground)))
+                                    .overlay(RoundedRectangle(cornerRadius: 30)
+                                        .stroke(viewModel.availableDays.contains(makeDate(day: day)) ? Color(red: 0, green: 0.6, blue: 0.81) : Color.clear, lineWidth: 2))
                             }
                             else if dayIndex < startDayOffset { // Previous month's days
                                 let previousMonthDate = Calendar.current.date(byAdding: .month, value: -1, to: selectedDate)!
@@ -86,7 +92,7 @@ struct CalendarMonthlyView: View {
                                     .font(.body)
                                     .foregroundColor(.gray)
                                     .frame(maxWidth: .infinity, minHeight: 40)
-                                    .background(RoundedRectangle(cornerRadius: 10).fill(Color.white))
+                                    .background(RoundedRectangle(cornerRadius: 30).fill(Color(UIColor.systemBackground)))
                             }
                             else { // Next month's days
                                 let day = dayIndex - (daysInMonth + startDayOffset) + 1
@@ -94,7 +100,7 @@ struct CalendarMonthlyView: View {
                                     .font(.body)
                                     .foregroundColor(.gray)
                                     .frame(maxWidth: .infinity, minHeight: 40)
-                                    .background(RoundedRectangle(cornerRadius: 10).fill(Color.white))
+                                    .background(RoundedRectangle(cornerRadius: 30).fill(Color(UIColor.systemBackground)))
                             }
                         }
                     }
@@ -113,13 +119,14 @@ struct CalendarMonthlyView: View {
                     }
             )
         }
-        .background(RoundedRectangle(cornerRadius: 10).fill(Color.white).shadow(radius: 5))
+        .background(RoundedRectangle(cornerRadius: 10).fill(Color(UIColor.systemBackground)).shadow(radius: 5))
         .padding(.horizontal, 20)
         .onAppear {
-            viewModel.fetchAvailableDays()
+            viewModel.fetchAvailableDays(user: user, selectedContacts: selectedContacts)
         }
     }
 }
+
 #Preview {
-    CalendarMonthlyView(selectedDate: .constant(Date()))
+    CalendarMonthlyView(selectedDate: .constant(Date()), user: User(documentID: "123", name: "Monae", email: "monaemwhite@gmail.com", selectedMii: "Image 0"), selectedContacts: [])
 }

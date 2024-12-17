@@ -14,6 +14,7 @@
 		871E32FC2CE4160E00616884 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 871E32FB2CE4160E00616884 /* GoogleSignIn */; };
 		871E32FE2CE4160E00616884 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 871E32FD2CE4160E00616884 /* GoogleSignInSwift */; };
 		8737306A2CEC20E9006DE8CC /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 873730692CEC20E9006DE8CC /* FirebaseFirestore */; };
+		8792E7E32D069943005CE990 /* FirebaseDynamicLinks in Frameworks */ = {isa = PBXBuildFile; productRef = 8792E7E22D069943005CE990 /* FirebaseDynamicLinks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 				871E32FC2CE4160E00616884 /* GoogleSignIn in Frameworks */,
 				871E32F32CE2FB9E00616884 /* FirebaseAnalytics in Frameworks */,
 				871E32F72CE2FB9E00616884 /* FirebaseCore in Frameworks */,
+				8792E7E32D069943005CE990 /* FirebaseDynamicLinks in Frameworks */,
 				871E32FE2CE4160E00616884 /* GoogleSignInSwift in Frameworks */,
 				871E32F92CE2FB9E00616884 /* FirebaseDatabase in Frameworks */,
 				871E32F52CE2FB9E00616884 /* FirebaseAuth in Frameworks */,
@@ -149,6 +151,7 @@
 				871E32FB2CE4160E00616884 /* GoogleSignIn */,
 				871E32FD2CE4160E00616884 /* GoogleSignInSwift */,
 				873730692CEC20E9006DE8CC /* FirebaseFirestore */,
+				8792E7E22D069943005CE990 /* FirebaseDynamicLinks */,
 			);
 			productName = WeMeet;
 			productReference = 8707A6582CD98FA700EDFA7A /* WeMeet.app */;
@@ -652,6 +655,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 871E32F12CE2FB9E00616884 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		8792E7E22D069943005CE990 /* FirebaseDynamicLinks */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 871E32F12CE2FB9E00616884 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDynamicLinks;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

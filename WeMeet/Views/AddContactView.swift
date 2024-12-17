@@ -6,114 +6,152 @@
 //
 
 import SwiftUI
+import FirebaseAuth
+import FirebaseFirestore
 
 struct AddContactView: View {
-    @State private var name: String = ""
-    @State private var email: String = ""
-    @State private var selectedMii: String = "defaultMii" // Default Mii image
-    @State private var errorMessage: String?
     @ObservedObject var viewModel: ContactsViewModel
     @Environment(\.dismiss) private var dismiss
-    
-    private let miis = (0..<25).map { "Image \($0)" }
+    @State private var email: String = ""
+    @State private var selectedUser: User?
+    @State private var errorMessage: String?
+
+    // Searches Firestore for desired User to add as a contact
+    private func searchUser() {
+        guard let currentUser = Auth.auth().currentUser else {
+            errorMessage = "You are not logged in."
+            return
+        }
+
+        errorMessage = nil
+        selectedUser = nil
+
+        let db = Firestore.firestore()
+        db.collection("Users")
+            .whereField("email", isEqualTo: email)
+            .getDocuments { snapshot, error in
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self.errorMessage = "Failed to search: \(error.localizedDescription)"
+                    }
+                    return
+                }
+
+                guard let document = snapshot?.documents.first else {
+                    DispatchQueue.main.async {
+                        self.errorMessage = "No user found with this email."
+                    }
+                    return
+                }
+
+                let data = document.data()
+                guard
+                    let uid = document.documentID as String?,
+                    uid != currentUser.uid, // Prevents self-addition
+                    let name = data["name"] as? String,
+                    let email = data["email"] as? String,
+                    let selectedMii = data["selectedMii"] as? String
+                else {
+                    DispatchQueue.main.async {
+                        self.errorMessage = "Invalid user data or you cannot add yourself."
+                    }
+                    return
+                }
+
+                DispatchQueue.main.async {
+                    self.selectedUser = User(documentID: uid, name: name, email: email, selectedMii: selectedMii)
+                }
+            }
+    }
 
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                // Input fields for Name and Email
-                TextField("Name", text: $name)
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                    .autocapitalization(.words)
-                    .disableAutocorrection(true)
-
-                TextField("Email", text: $email)
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                    .keyboardType(.emailAddress)
-                    .autocapitalization(.none)
-                    .disableAutocorrection(true)
-
-                // Mii Selection
+                // Search Section
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("Select a Mii:")
+                    Text("Search by Email:")
                         .font(.headline)
 
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            ForEach(miis, id: \.self) { mii in
-                                Image(mii)
-                                    .resizable()
-                                    .frame(width: 50, height: 50)
-                                    .clipShape(Circle())
-                                    .overlay(
-                                        Circle()
-                                            .stroke(selectedMii == mii ? Color.blue : Color.clear, lineWidth: 2)
-                                    )
-                                    .onTapGesture {
-                                        selectedMii = mii
-                                    }
-                            }
+                    HStack {
+                        TextField("Enter email address", text: $email)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .autocapitalization(.none)
+                            .disableAutocorrection(true)
+
+                        Button("Search") {
+                            searchUser()
                         }
+                        .buttonStyle(.borderedProminent)
+                        .tint(Color(red: 0, green: 0.6, blue: 0.81))
+                        .disabled(email.isEmpty)
+                    }
+
+                    if let errorMessage = errorMessage {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                            .font(.footnote)
                     }
                 }
+                .padding(.horizontal)
 
-                // Error Message
-                if let errorMessage = errorMessage {
-                    Text(errorMessage)
-                        .foregroundColor(.red)
-                        .multilineTextAlignment(.center)
+                // Display Found User
+                if let selectedUser = selectedUser {
+                    VStack(spacing: 10) {
+                        Text("User Found:")
+                            .font(.headline)
+
+                        HStack {
+                            Image(selectedUser.selectedMii)
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .clipShape(Circle())
+                            VStack(alignment: .leading) {
+                                Text(selectedUser.name)
+                                    .font(.headline)
+                                Text(selectedUser.email)
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
+                        }
+
+                        Button("Add Contact") {
+                            viewModel.addContact(contactUID: selectedUser.uid) { error in
+                                if let error = error {
+                                    DispatchQueue.main.async {
+                                        self.errorMessage = "Failed to add contact: \(error.localizedDescription)"
+                                    }
+                                } else {
+                                    DispatchQueue.main.async {
+                                        self.dismiss()
+                                    }
+                                }
+                            }
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(Color(red: 0, green: 0.6, blue: 0.81))
+                    }
+                    .padding(.horizontal)
                 }
 
-                // Add Contact Button
-                Button(action: addContact) {
-                    Text("Add Contact")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.blue)
-                        .cornerRadius(10)
-                }
-                .disabled(name.isEmpty || email.isEmpty)
+                Spacer()
             }
             .padding()
-            .navigationTitle("Add Contact")
-            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitle("Add Contact", displayMode: .inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: { dismiss() }) {
                         Text("Cancel")
-                            .foregroundColor(.blue)
+                            .foregroundColor(Color(red: 0, green: 0.6, blue: 0.81))
                     }
                 }
             }
         }
-    }
-
-    private func addContact() {
-        guard !name.isEmpty, !email.isEmpty else {
-            errorMessage = "Please fill in all fields."
-            return
-        }
-
-        // Create a new contact
-        let newContact = Contact(
-            id: nil,
-            name: name,
-            email: email,
-            selectedMii: selectedMii,
-            refreshToken: nil
-        )
-
-        viewModel.addContact(contact: newContact)
-
-        dismiss()
+        .navigationViewStyle(StackNavigationViewStyle()) // Forces a single-column layout on iPad
     }
 }
 
 #Preview {
     AddContactView(viewModel: ContactsViewModel())
+        .environmentObject(User())
 }
+

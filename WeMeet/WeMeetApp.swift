@@ -3,10 +3,11 @@
 //  WeMeet
 //
 //  Created by Monae White.
-//
+//  mostly fixed
 
 import SwiftUI
 import FirebaseCore
+import FirebaseFirestore
 import GoogleSignIn
 
 class AppDelegate: NSObject, UIApplicationDelegate { // UIResponder
@@ -16,8 +17,12 @@ class AppDelegate: NSObject, UIApplicationDelegate { // UIResponder
         return true
     }
     
-    func handleOpenURL(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        return GIDSignIn.sharedInstance.handle(url)
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        if GIDSignIn.sharedInstance.handle(url) {
+            return true
+        }
+        
+        return false
     }
 }
 
@@ -29,6 +34,7 @@ struct WeMeetApp: App {
         WindowGroup {
             NavigationView {
                 ContentView()
+                    .environmentObject(User())
             }
             .onOpenURL { url in
                 GIDSignIn.sharedInstance.handle(url)

@@ -3,6 +3,7 @@
 //  WeMeet
 //
 //  Created by Monae White.
+//  This code fetches motivational quotes or greeting messages from an API and dynamically updates the welcome screen. 
 //
 
 import SwiftUI

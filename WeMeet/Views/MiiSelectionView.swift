@@ -38,7 +38,6 @@ struct MiiSelectionView: View {
         }
         .navigationTitle("Select Mii")
     }
-
 }
 
 #Preview {

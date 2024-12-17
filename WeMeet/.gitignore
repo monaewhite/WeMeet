@@ -8,7 +8,6 @@ DerivedData/
 
 # Secrets and Configurations
 GoogleService-Info.plist
-Info.plist
 *.json
 secrets.json
 
